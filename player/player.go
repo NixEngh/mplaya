@@ -102,6 +102,18 @@ func Play(playerName string) error {
 	return cmd.Run()
 }
 
+// Next skips to the next track
+func Next(playerName string) error {
+	cmd := exec.Command("playerctl", "-p", playerName, "next")
+	return cmd.Run()
+}
+
+// Previous goes to the previous track
+func Previous(playerName string) error {
+	cmd := exec.Command("playerctl", "-p", playerName, "previous")
+	return cmd.Run()
+}
+
 // PauseAll pauses all players
 func PauseAll() error {
 	cmd := exec.Command("playerctl", "-a", "pause")
