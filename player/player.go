@@ -102,6 +102,50 @@ func Play(playerName string) error {
 	return cmd.Run()
 }
 
+// PauseAll pauses all players
+func PauseAll() error {
+	cmd := exec.Command("playerctl", "-a", "pause")
+	return cmd.Run()
+}
+
+// SmartPlayPause implements smart play/pause behavior:
+// - If ANY player is playing → pause ALL players, return "pause"
+// - If NO player is playing → play pinned (or first available), return "play"
+func SmartPlayPause() (action string, err error) {
+	players, err := ListPlayers()
+	if err != nil {
+		return "", err
+	}
+
+	// Check if any player is currently playing
+	anyPlaying := false
+	for _, p := range players {
+		if p.Status == StatusPlaying {
+			anyPlaying = true
+			break
+		}
+	}
+
+	if anyPlaying {
+		// Pause all players
+		err = PauseAll()
+		return "pause", err
+	}
+
+	// No player is playing, start the pinned player (or first available)
+	targetPlayer := GetPinnedPlayer()
+	if targetPlayer == "" && len(players) > 0 {
+		targetPlayer = players[0].Name
+	}
+
+	if targetPlayer == "" {
+		return "", nil // No players available
+	}
+
+	err = Play(targetPlayer)
+	return "play", err
+}
+
 
 // Pin toggles the player as the pinned player for hardware media key control.
 // If the player is already pinned, it unpins it.
