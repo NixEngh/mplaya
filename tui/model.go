@@ -50,25 +50,28 @@ var (
 				Height(5).
 				Padding(0, 2)
 
-	// Button styles (smaller)
+	// Button styles (compact)
 	buttonStyle = lipgloss.NewStyle().
 			Border(lipgloss.RoundedBorder()).
 			BorderForeground(lipgloss.Color("240")).
-			Padding(0, 1)
+			Width(3).
+			Align(lipgloss.Center)
 
 	// Active play button (when playing)
 	playingButtonStyle = lipgloss.NewStyle().
 				Border(lipgloss.RoundedBorder()).
 				BorderForeground(lipgloss.Color("82")).
 				Foreground(lipgloss.Color("82")).
-				Padding(0, 1)
+				Width(3).
+				Align(lipgloss.Center)
 
 	// Paused button style
 	pausedButtonStyle = lipgloss.NewStyle().
 				Border(lipgloss.RoundedBorder()).
 				BorderForeground(lipgloss.Color("214")).
 				Foreground(lipgloss.Color("214")).
-				Padding(0, 1)
+				Width(3).
+				Align(lipgloss.Center)
 )
 
 type Model struct {
